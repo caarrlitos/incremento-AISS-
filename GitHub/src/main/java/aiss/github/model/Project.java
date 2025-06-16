@@ -1,6 +1,7 @@
 
 package aiss.github.model;
 
+import aiss.github.model.commitdata.SourcePlatform;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
@@ -28,6 +29,16 @@ public class Project {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
     private List<Commit> commits;
+
+
+    // Nueva
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_platform")
+    @JsonProperty("sourcePlatform")
+    private SourcePlatform sourcePlatform;
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
 
     @JsonProperty("issues")
     @OneToMany(cascade = CascadeType.ALL)
@@ -79,6 +90,9 @@ public class Project {
         this.issues = issues;
     }
 
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -95,6 +109,11 @@ public class Project {
         sb.append('=');
         sb.append(((this.issues == null)?"<null>":this.issues));
         sb.append(',');
+        sb.append("sourcePlatform");
+        sb.append('=');
+        sb.append(((this.sourcePlatform == null) ? "<null>" : this.sourcePlatform));
+        sb.append(',');
+
 
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

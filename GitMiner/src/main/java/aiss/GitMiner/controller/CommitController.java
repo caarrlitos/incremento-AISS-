@@ -35,8 +35,19 @@ public class CommitController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Commit create(@Valid @RequestBody Commit commit) {
+        // ⚠️ IMPORTANTE: incluir todos los campos, también sourcePlatform
         Commit newCommit = commitRepository.save(
-                new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getWebUrl()));
+                new Commit(
+                        commit.getId(),
+                        commit.getTitle(),
+                        commit.getMessage(),
+                        commit.getAuthorName(),
+                        commit.getAuthorEmail(),
+                        commit.getAuthoredDate(),
+                        commit.getWebUrl(),
+                        commit.getSourcePlatform() // 👈 aquí estaba el problema
+                )
+        );
         return newCommit;
     }
 
@@ -53,6 +64,7 @@ public class CommitController {
         _commit.setAuthorEmail(updatedCommit.getAuthorEmail());
         _commit.setAuthoredDate(updatedCommit.getAuthoredDate());
         _commit.setWebUrl(updatedCommit.getWebUrl());
+        _commit.setSourcePlatform(updatedCommit.getSourcePlatform()); // 👈 aquí también
         commitRepository.save(_commit);
     }
 

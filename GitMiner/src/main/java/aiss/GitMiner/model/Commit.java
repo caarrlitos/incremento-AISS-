@@ -1,5 +1,6 @@
 package aiss.GitMiner.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -37,9 +38,24 @@ public class Commit {
     @Column(name = "web_url")
     private String web_url;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_platform")
+    @JsonProperty("sourcePlatform")
+    private SourcePlatform sourcePlatform;
+
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
+
     public Commit() {}  //constructor vacio
 
-    public Commit(String id, String title, String message, String author_name, String author_email, String authored_date, String web_url) {
+    public Commit(String id, String title, String message, String author_name,
+                  String author_email, String authored_date, String web_url,
+                  SourcePlatform sourcePlatform) {
         this.id = id;
         this.title = title;
         this.message = message;
@@ -47,7 +63,9 @@ public class Commit {
         this.authorEmail = author_email;
         this.authored_date = authored_date;
         this.web_url = web_url;
-    }    //constructor con parametros
+        this.sourcePlatform = sourcePlatform;
+    }
+
 
     public String getId() {
         return id;

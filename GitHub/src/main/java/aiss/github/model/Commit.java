@@ -1,5 +1,6 @@
 package aiss.github.model;
 
+import aiss.github.model.commitdata.SourcePlatform;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -27,10 +28,25 @@ public class Commit {
     @JsonProperty("authored_date")
     @NotEmpty(message = "Author date cannot be empty.")
     private String authoredDate;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_platform")
+    @JsonProperty("sourcePlatform")
+    private SourcePlatform sourcePlatform;
+
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
+
 
     @JsonProperty("web_url")
     @NotEmpty(message = "URL cannot be empty." +
             "")
+
+
     private String webUrl;
 
     public String getId() {
@@ -121,6 +137,11 @@ public class Commit {
         sb.append('=');
         sb.append(((this.webUrl == null) ? "<null>" : this.webUrl));
         sb.append(',');
+        sb.append("sourcePlatform");
+        sb.append('=');
+        sb.append(((this.sourcePlatform == null) ? "<null>" : this.sourcePlatform));
+        sb.append(',');
+
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {
