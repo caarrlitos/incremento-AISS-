@@ -27,6 +27,8 @@ public class Transformer {
             String message = githubCommit.commit.message != null ? githubCommit.commit.message : "";
             commit.setTitle(message.length() < 20 ? message : message.substring(0, 20));
             commit.setMessage(message);
+            commit.setSourcePlatform(SourcePlatform.GITHUB);
+
 
             if (githubCommit.commit.author != null) {
                 commit.setAuthorName(githubCommit.commit.author.name != null ?
@@ -47,7 +49,8 @@ public class Transformer {
             commit.setAuthorEmail("");
             commit.setAuthoredDate("");
         }
-
+        // Establecer plataforma
+        commit.setSourcePlatform(SourcePlatform.GITHUB);
         return commit;
     }
 
@@ -70,12 +73,15 @@ public class Transformer {
 
             author.setAvatarUrl(githubComment.user.avatarUrl);
             author.setWebUrl(githubComment.user.url);
-
+            author.setSourcePlatform(SourcePlatform.GITHUB);
+            author.setSourcePlatform(SourcePlatform.GITHUB);
             comment.setAuthor(author);
         }
 
         comment.setCreatedAt(githubComment.createdAt != null ? githubComment.createdAt : "");
         comment.setUpdatedAt(githubComment.updatedAt != null ? githubComment.updatedAt : "");
+        // Establecer plataforma
+        comment.setSourcePlatform(SourcePlatform.GITHUB);
 
         return comment;
     }
@@ -99,6 +105,7 @@ public class Transformer {
             author.setName(""); // GitHub no proporciona name en el user básico
             author.setAvatarUrl(githubIssue.user.avatarUrl);
             author.setWebUrl(githubIssue.user.url);
+            author.setSourcePlatform(SourcePlatform.GITHUB);
             issue.setAuthor(author);
         }
 
@@ -109,6 +116,7 @@ public class Transformer {
             assignee.setName(""); // GitHub no proporciona name en el assignee básico
             assignee.setAvatarUrl(githubIssue.assignee.avatarUrl);
             assignee.setWebUrl(githubIssue.assignee.url);
+            assignee.setSourcePlatform(SourcePlatform.GITHUB);
             issue.setAssignee(assignee);
         }
 
@@ -125,6 +133,7 @@ public class Transformer {
         }
 
         issue.setComments(comments != null ? comments : new ArrayList<>());
+        issue.setSourcePlatform(SourcePlatform.GITHUB);
 
         return issue;
     }

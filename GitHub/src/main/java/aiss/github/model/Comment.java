@@ -1,6 +1,7 @@
 
 package aiss.github.model;
 
+import aiss.github.model.commitdata.SourcePlatform;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -29,6 +30,20 @@ public class Comment {
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_platform")
+    @JsonProperty("sourcePlatform")
+    private SourcePlatform sourcePlatform;
+
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
+
 
     public String getId() {
         return id;
@@ -94,6 +109,11 @@ public class Comment {
         sb.append('=');
         sb.append(((this.updatedAt == null) ? "<null>" : this.updatedAt));
         sb.append(',');
+        sb.append("sourcePlatform");
+        sb.append('=');
+        sb.append(((this.sourcePlatform == null) ? "<null>" : this.sourcePlatform));
+        sb.append(',');
+
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {
