@@ -1,0 +1,13 @@
+package ProyectoAiss.BitBucket.model.BitBucket.IssueData;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class IssuesPage {
+
+    @JsonProperty("values")
+    public List<BIssueData> values;
+
+}
