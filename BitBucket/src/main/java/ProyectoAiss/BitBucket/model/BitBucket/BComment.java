@@ -1,9 +1,7 @@
-
 package ProyectoAiss.BitBucket.model.BitBucket;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -16,12 +14,12 @@ public class BComment {
 
     @JsonProperty("body")
     @NotEmpty(message = "The message cannot be empty.")
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String body;
 
     @JsonProperty("Author")
     @JoinColumn(name = "author_id", referencedColumnName = "id")
-    @OneToOne(cascade= CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private BUser author;
 
     @JsonProperty("created_at")
@@ -30,6 +28,9 @@ public class BComment {
 
     @JsonProperty("updated_at")
     private String updatedAt;
+
+    @JsonProperty("retrieved_at")
+    private String retrieved_at;
 
     public String getId() {
         return id;
@@ -71,30 +72,24 @@ public class BComment {
         this.updatedAt = updatedAt;
     }
 
+    public String getRetrieved_at() {
+        return retrieved_at;
+    }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(BComment.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null) ? "<null>" : this.id));
-        sb.append(',');
-        sb.append("body");
-        sb.append('=');
-        sb.append(((this.body == null) ? "<null>" : this.body));
-        sb.append(',');
-        sb.append("author");
-        sb.append('=');
-        sb.append(((this.author == null) ? "<null>" : this.author));
-        sb.append(',');
-        sb.append("createdAt");
-        sb.append('=');
-        sb.append(((this.createdAt == null) ? "<null>" : this.createdAt));
-        sb.append(',');
-        sb.append("updatedAt");
-        sb.append('=');
-        sb.append(((this.updatedAt == null) ? "<null>" : this.updatedAt));
-        sb.append(',');
+        sb.append("id=").append(id == null ? "<null>" : id).append(',');
+        sb.append("body=").append(body == null ? "<null>" : body).append(',');
+        sb.append("author=").append(author == null ? "<null>" : author).append(',');
+        sb.append("createdAt=").append(createdAt == null ? "<null>" : createdAt).append(',');
+        sb.append("updatedAt=").append(updatedAt == null ? "<null>" : updatedAt).append(',');
+        sb.append("retrieved_at=").append(retrieved_at == null ? "<null>" : retrieved_at).append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {
@@ -102,5 +97,4 @@ public class BComment {
         }
         return sb.toString();
     }
-
 }

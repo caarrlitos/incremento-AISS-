@@ -5,6 +5,7 @@ import ProyectoAiss.BitBucket.model.BitBucket.BCommit;
 import ProyectoAiss.BitBucket.model.BitBucket.BIssue;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,6 +33,7 @@ public class BitBucketMinerService {
         project.setWebUrl(first.getRepositoryUrl());
         project.setCommits(commits);
         project.setIssues(issues);
+        project.setRetrieved_at(LocalDateTime.now().toString());
 
         return project;
     }

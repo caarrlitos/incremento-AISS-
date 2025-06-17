@@ -9,6 +9,7 @@ import ProyectoAiss.BitBucket.model.BitBucket.IssueData.BIComments;
 import ProyectoAiss.BitBucket.model.BitBucket.IssueData.BIssueData;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class TransformerBitBucket {
         commit.setId(bitBucketCommit.hash);
         commit.setTitle(bitBucketCommit.message.split("\n")[0]);
         commit.setMessage(bitBucketCommit.message);
+        commit.setIsMergeCommit(bitBucketCommit.message.toLowerCase().contains("merge"));
         commit.setAuthoredDate(bitBucketCommit.date);
         commit.setAuthorName(bitBucketCommit.author.user.displayName);
         String raw = bitBucketCommit.author.raw;
@@ -37,6 +39,9 @@ public class TransformerBitBucket {
                 commit.setRepositoryUrl("https://bitbucket.org/" + bitBucketCommit.repository.fullName);
             }
         }
+
+        commit.setRetrieved_at(LocalDateTime.now().toString());
+
 
 
         return commit;
@@ -76,6 +81,9 @@ public class TransformerBitBucket {
         if (bitBucketIssueComment.updatedOn != null) {
             comment.setUpdatedAt(bitBucketIssueComment.updatedOn.toString());
         }
+
+        comment.setRetrieved_at(LocalDateTime.now().toString());
+
 
         return comment;
     }
@@ -128,6 +136,9 @@ public class TransformerBitBucket {
         issue.setWebUrl(issueData.links.html.href);
         issue.setLabels(new ArrayList<>());
         issue.setComments(comments);
+        issue.setNumComments(comments != null ? comments.size() : 0);
+        issue.setRetrieved_at(LocalDateTime.now().toString());
+
 
         return issue;
     }

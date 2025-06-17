@@ -1,4 +1,3 @@
-
 package ProyectoAiss.BitBucket.model.BitBucket;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +6,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity
 @Table(name = "BProject")
@@ -24,6 +22,10 @@ public class BProject {
     @JsonProperty("web_url")
     @NotEmpty(message = "The URL of the project cannot be empty")
     public String webUrl;
+
+    @JsonProperty("retrieved_at")
+    private String retrieved_at;
+
     @JsonProperty("commits")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
@@ -63,13 +65,25 @@ public class BProject {
         this.webUrl = webUrl;
     }
 
+    public String getRetrieved_at() {
+        return retrieved_at;
+    }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
     public List<BCommit> getCommits() {
         return commits;
     }
 
-    public void setCommits(List<BCommit> BCommits) {this.commits = BCommits;}
+    public void setCommits(List<BCommit> BCommits) {
+        this.commits = BCommits;
+    }
 
-    public List<BIssue> getIssues() { return issues; }
+    public List<BIssue> getIssues() {
+        return issues;
+    }
 
     public void setIssues(List<BIssue> BIssues) {
         this.issues = BIssues;
@@ -79,21 +93,14 @@ public class BProject {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(BProject.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("commits");
-        sb.append('=');
-        sb.append(((this.commits == null)?"<null>":this.commits));
-        sb.append(',');
-        sb.append("issues");
-        sb.append('=');
-        sb.append(((this.issues == null)?"<null>":this.issues));
-        sb.append(',');
-
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        sb.append("id=").append(id == null ? "<null>" : id).append(',');
+        sb.append("name=").append(name == null ? "<null>" : name).append(',');
+        sb.append("webUrl=").append(webUrl == null ? "<null>" : webUrl).append(',');
+        sb.append("retrieved_at=").append(retrieved_at == null ? "<null>" : retrieved_at).append(',');
+        sb.append("commits=").append(commits == null ? "<null>" : commits).append(',');
+        sb.append("issues=").append(issues == null ? "<null>" : issues).append(',');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }

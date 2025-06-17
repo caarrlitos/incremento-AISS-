@@ -1,10 +1,8 @@
-
 package ProyectoAiss.BitBucket.model.BitBucket;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -14,39 +12,59 @@ public class BIssue {
     @Id
     @JsonProperty("id")
     private String id;
+
     @JsonProperty("title")
     private String title;
+
     @JsonProperty("description")
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
+
     @JsonProperty("state")
     private String state;
 
     @JsonProperty("created_at")
     private String createdAt;
+
     @JsonProperty("updated_at")
     private String updatedAt;
+
     @JsonProperty("closed_at")
     private String closedAt;
+
+    @JsonProperty("retrieved_at")
+    private String retrieved_at;
+
+    @JsonProperty("num_comments")
+    private Integer numComments;
+
     @JsonProperty("labels")
     @ElementCollection
     private List<String> labels;
+
     @JsonProperty("author")
-    @JoinColumn(name = "author_id",referencedColumnName = "id")
-    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
     private BUser author;
+
     @JsonProperty("assignee")
-    @JoinColumn(name = "assignee_id",referencedColumnName = "id")
-    @OneToOne(cascade=CascadeType.ALL)
-    private BUser  assignee;
+    @JoinColumn(name = "assignee_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private BUser assignee;
+
     @JsonProperty("votes")
     private Integer votes;
+
     @JsonProperty("web_url")
     private String webUrl;
+
     @JsonProperty("comments")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "issueId")
     private List<BComment> comments;
+
+
+    // Getters y setters
 
     public String getId() {
         return id;
@@ -104,6 +122,22 @@ public class BIssue {
         this.closedAt = closedAt;
     }
 
+    public String getRetrieved_at() {
+        return retrieved_at;
+    }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
+    public Integer getNumComments() {
+        return numComments;
+    }
+
+    public void setNumComments(Integer numComments) {
+        this.numComments = numComments;
+    }
+
     public List<String> getLabels() {
         return labels;
     }
@@ -148,63 +182,29 @@ public class BIssue {
         return comments;
     }
 
-    public void setComments(List<BComment> BComments) {
-        this.comments = BComments;
+    public void setComments(List<BComment> comments) {
+        this.comments = comments;
     }
+
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(BIssue.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null) ? "<null>" : this.id));
-        sb.append(',');
-        sb.append("title");
-        sb.append('=');
-        sb.append(((this.title == null) ? "<null>" : this.title));
-        sb.append(',');
-        sb.append("description");
-        sb.append('=');
-        sb.append(((this.description == null) ? "<null>" : this.description));
-        sb.append(',');
-        sb.append("state");
-        sb.append('=');
-        sb.append(((this.state == null) ? "<null>" : this.state));
-        sb.append(',');
-        sb.append("createdAt");
-        sb.append('=');
-        sb.append(((this.createdAt == null) ? "<null>" : this.createdAt));
-        sb.append(',');
-        sb.append("updatedAt");
-        sb.append('=');
-        sb.append(((this.updatedAt == null) ? "<null>" : this.updatedAt));
-        sb.append(',');
-        sb.append("closedAt");
-        sb.append('=');
-        sb.append(((this.closedAt == null) ? "<null>" : this.closedAt));
-        sb.append(',');
-        sb.append("labels");
-        sb.append('=');
-        sb.append(((this.labels == null) ? "<null>" : this.labels));
-        sb.append(',');
-        sb.append("author");
-        sb.append('=');
-        sb.append(((this.author == null) ? "<null>" : this.author));
-        sb.append(',');
-        sb.append("assignee");
-        sb.append('=');
-        sb.append(((this.assignee == null) ? "<null>" : this.assignee));
-        sb.append(',');
-        sb.append("votes");
-        sb.append('=');
-        sb.append(((this.votes == null) ? "<null>" : this.votes));
-        sb.append(',');
-        sb.append("comments");
-        sb.append('=');
-        sb.append(((this.comments == null) ? "<null>" : this.comments));
-        sb.append(',');
-
+        sb.append("id=").append(id == null ? "<null>" : id).append(',');
+        sb.append("title=").append(title == null ? "<null>" : title).append(',');
+        sb.append("description=").append(description == null ? "<null>" : description).append(',');
+        sb.append("state=").append(state == null ? "<null>" : state).append(',');
+        sb.append("createdAt=").append(createdAt == null ? "<null>" : createdAt).append(',');
+        sb.append("updatedAt=").append(updatedAt == null ? "<null>" : updatedAt).append(',');
+        sb.append("closedAt=").append(closedAt == null ? "<null>" : closedAt).append(',');
+        sb.append("retrieved_at=").append(retrieved_at == null ? "<null>" : retrieved_at).append(',');
+        sb.append("labels=").append(labels == null ? "<null>" : labels).append(',');
+        sb.append("author=").append(author == null ? "<null>" : author).append(',');
+        sb.append("assignee=").append(assignee == null ? "<null>" : assignee).append(',');
+        sb.append("votes=").append(votes == null ? "<null>" : votes).append(',');
+        sb.append("comments=").append(comments == null ? "<null>" : comments).append(',');
+        sb.append("numComments=").append(numComments == null ? "<null>" : numComments).append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {
@@ -212,7 +212,4 @@ public class BIssue {
         }
         return sb.toString();
     }
-
-
-
 }
