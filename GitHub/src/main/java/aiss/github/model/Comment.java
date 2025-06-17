@@ -1,49 +1,49 @@
 
 package aiss.github.model;
 
-import aiss.github.model.commitdata.SourcePlatform;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Table(name = "Comment")
+@Table(name = "comments")
+@JsonPropertyOrder({ "id", "body", "author", "created_at", "updated_at", "retrieved_at" })
 public class Comment {
 
     @Id
-    @JsonProperty("id")
     private String id;
-    @JsonProperty("body")
-    @NotEmpty(message = "The message cannot be empty.")
-    @Column(columnDefinition="TEXT")
+
+    @Lob
+    @Column(name = "body")
     private String body;
 
-    @JsonProperty("author")
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
-    @OneToOne(cascade=CascadeType.ALL)
+    @Column(name = "created_at")
+    private String created_at;
+
+    @Column(name = "updated_at")
+    private String updated_at;
+
+    @Column(name = "retrieved_at")
+    private String retrieved_at;
+
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "authorId")
     private User author;
 
-    @JsonProperty("created_at")
-    @NotEmpty(message = "The field created_at cannot be empty.")
-    private String createdAt;
-    @JsonProperty("updated_at")
-    private String updatedAt;
+    public Comment() {}
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "source_platform")
-    @JsonProperty("sourcePlatform")
-    private SourcePlatform sourcePlatform;
-
-    public SourcePlatform getSourcePlatform() {
-        return sourcePlatform;
+    public Comment(String id, String body, String created_at, String updated_at, String retrieved_at, User author) {
+        this.id = id;
+        this.body = body;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.retrieved_at = retrieved_at;
+        this.author = author;
     }
-
-    public void setSourcePlatform(SourcePlatform sourcePlatform) {
-        this.sourcePlatform = sourcePlatform;
-    }
-
 
     public String getId() {
         return id;
@@ -61,65 +61,37 @@ public class Comment {
         this.body = body;
     }
 
+    public String getCreatedAt() {
+        return created_at;
+    }
+
+    public void setCreatedAt(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getUpdatedAt() {
+        return updated_at;
+    }
+
+    public void setUpdatedAt(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public String getRetrieved_at() {
+        return retrieved_at;
+    }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
+
     public User getAuthor() {
         return author;
     }
 
     public void setAuthor(User author) {
         this.author = author;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Comment.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null) ? "<null>" : this.id));
-        sb.append(',');
-        sb.append("body");
-        sb.append('=');
-        sb.append(((this.body == null) ? "<null>" : this.body));
-        sb.append(',');
-        sb.append("author");
-        sb.append('=');
-        sb.append(((this.author == null) ? "<null>" : this.author));
-        sb.append(',');
-        sb.append("createdAt");
-        sb.append('=');
-        sb.append(((this.createdAt == null) ? "<null>" : this.createdAt));
-        sb.append(',');
-        sb.append("updatedAt");
-        sb.append('=');
-        sb.append(((this.updatedAt == null) ? "<null>" : this.updatedAt));
-        sb.append(',');
-        sb.append("sourcePlatform");
-        sb.append('=');
-        sb.append(((this.sourcePlatform == null) ? "<null>" : this.sourcePlatform));
-        sb.append(',');
-
-        if (sb.charAt((sb.length() - 1)) == ',') {
-            sb.setCharAt((sb.length() - 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
     }
 
 }

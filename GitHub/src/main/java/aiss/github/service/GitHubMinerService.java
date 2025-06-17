@@ -6,6 +6,7 @@ import aiss.github.model.Commit;
 import aiss.github.model.Issue;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class GitHubMinerService {
             project.setId(repoId);
             project.setName(repo);
             project.setWebUrl("https://github.com/" + owner + "/" + repo);
+            project.setRetrieved_at(LocalDateTime.now().toString());
         }
 
         project.setCommits(commits);

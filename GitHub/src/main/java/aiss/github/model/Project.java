@@ -1,9 +1,9 @@
 
 package aiss.github.model;
 
-import aiss.github.model.commitdata.SourcePlatform;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.ArrayList;
@@ -11,43 +11,41 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "Project")
+@Table(name = "projects")
+@JsonPropertyOrder({ "id", "name", "web_url", "retrieved_at", "commits", "issues" })
 public class Project {
 
     @Id
-    @JsonProperty("id")
-    public String id;
+    private String id;
 
-    @JsonProperty("name")
-    @NotEmpty(message = "The name of the project cannot be empty")
-    public String name;
+    @Column(name = "name")
+    @NotEmpty(message = "Project name is required")
+    private String name;
 
-    @JsonProperty("web_url")
-    @NotEmpty(message = "The URL of the project cannot be empty")
-    public String webUrl;
-    @JsonProperty("commits")
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
+    @Column(name = "web_url")
+    private String web_url;
+
+    @Column(name = "retrieved_at")
+    private String retrieved_at;
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "project_id")
     private List<Commit> commits;
 
-
-    // Nueva
-    @Enumerated(EnumType.STRING)
-    @Column(name = "source_platform")
-    @JsonProperty("sourcePlatform")
-    private SourcePlatform sourcePlatform;
-    public SourcePlatform getSourcePlatform() {
-        return sourcePlatform;
-    }
-
-    @JsonProperty("issues")
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "project_id")
     private List<Issue> issues;
 
-    public Project() {
-        commits = new ArrayList<>();
-        issues = new ArrayList<>();
+    public Project() {}
+
+    public Project(String id, String name, String web_url, String retrieved_at, List<Commit> commits, List<Issue> issues) {
+        this.id = id;
+        this.name = name;
+        this.web_url = web_url;
+        this.retrieved_at = retrieved_at;
+        this.commits = commits;
+        this.issues = issues;
     }
 
     public String getId() {
@@ -67,12 +65,21 @@ public class Project {
     }
 
     public String getWebUrl() {
-        return webUrl;
+        return web_url;
     }
 
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
+    public void setWebUrl(String web_url) {
+        this.web_url = web_url;
     }
+
+    public String getRetrieved_at() {
+        return retrieved_at;
+    }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
 
     public List<Commit> getCommits() {
         return commits;
@@ -88,38 +95,5 @@ public class Project {
 
     public void setIssues(List<Issue> issues) {
         this.issues = issues;
-    }
-
-    public void setSourcePlatform(SourcePlatform sourcePlatform) {
-        this.sourcePlatform = sourcePlatform;
-    }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("commits");
-        sb.append('=');
-        sb.append(((this.commits == null)?"<null>":this.commits));
-        sb.append(',');
-        sb.append("issues");
-        sb.append('=');
-        sb.append(((this.issues == null)?"<null>":this.issues));
-        sb.append(',');
-        sb.append("sourcePlatform");
-        sb.append('=');
-        sb.append(((this.sourcePlatform == null) ? "<null>" : this.sourcePlatform));
-        sb.append(',');
-
-
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
     }
 }

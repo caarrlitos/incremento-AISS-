@@ -1,7 +1,6 @@
 
 package aiss.github.model;
 
-import aiss.github.model.commitdata.SourcePlatform;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -24,19 +23,6 @@ public class User {
     private String avatarUrl;
     @JsonProperty("web_url")
     private String webUrl;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "source_platform")
-    @JsonProperty("sourcePlatform")
-    private SourcePlatform sourcePlatform;
-
-    public SourcePlatform getSourcePlatform() {
-        return sourcePlatform;
-    }
-
-    public void setSourcePlatform(SourcePlatform sourcePlatform) {
-        this.sourcePlatform = sourcePlatform;
-    }
-
 
     public String getId() {
         return id;
@@ -102,11 +88,6 @@ public class User {
         sb.append('=');
         sb.append(((this.webUrl == null)?"<null>":this.webUrl));
         sb.append(',');
-        sb.append("sourcePlatform");
-        sb.append('=');
-        sb.append(((this.sourcePlatform == null) ? "<null>" : this.sourcePlatform));
-        sb.append(',');
-
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {

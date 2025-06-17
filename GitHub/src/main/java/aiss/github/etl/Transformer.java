@@ -1,4 +1,3 @@
-
 package aiss.github.etl;
 
 import aiss.github.model.commitdata.*;
@@ -10,6 +9,7 @@ import aiss.github.model.Project;
 import aiss.github.model.User;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public class Transformer {
             String message = githubCommit.commit.message != null ? githubCommit.commit.message : "";
             commit.setTitle(message.length() < 20 ? message : message.substring(0, 20));
             commit.setMessage(message);
-            commit.setSourcePlatform(SourcePlatform.GITHUB);
+            commit.setIsMergeCommit(message.toLowerCase().contains("merge"));
 
 
             if (githubCommit.commit.author != null) {
@@ -49,8 +49,9 @@ public class Transformer {
             commit.setAuthorEmail("");
             commit.setAuthoredDate("");
         }
-        // Establecer plataforma
-        commit.setSourcePlatform(SourcePlatform.GITHUB);
+
+        commit.setRetrieved_at(LocalDateTime.now().toString());
+
         return commit;
     }
 
@@ -62,7 +63,6 @@ public class Transformer {
         Comment comment = new Comment();
 
         comment.setId(githubComment.id != null ? githubComment.id.toString() : "");
-
         comment.setBody(githubComment.body != null ? githubComment.body.trim() : "(no content)");
 
         if (githubComment.user != null) {
@@ -70,18 +70,14 @@ public class Transformer {
             author.setId(githubComment.user.id != null ? githubComment.user.id.toString() : "");
             author.setUsername(githubComment.user.login != null ? githubComment.user.login : "");
             author.setName("");
-
             author.setAvatarUrl(githubComment.user.avatarUrl);
             author.setWebUrl(githubComment.user.url);
-            author.setSourcePlatform(SourcePlatform.GITHUB);
-            author.setSourcePlatform(SourcePlatform.GITHUB);
             comment.setAuthor(author);
         }
 
         comment.setCreatedAt(githubComment.createdAt != null ? githubComment.createdAt : "");
         comment.setUpdatedAt(githubComment.updatedAt != null ? githubComment.updatedAt : "");
-        // Establecer plataforma
-        comment.setSourcePlatform(SourcePlatform.GITHUB);
+        comment.setRetrieved_at(LocalDateTime.now().toString());
 
         return comment;
     }
@@ -102,10 +98,9 @@ public class Transformer {
             User author = new User();
             author.setId(githubIssue.user.id != null ? githubIssue.user.id.toString() : null);
             author.setUsername(githubIssue.user.login != null ? githubIssue.user.login : "");
-            author.setName(""); // GitHub no proporciona name en el user básico
+            author.setName("");
             author.setAvatarUrl(githubIssue.user.avatarUrl);
             author.setWebUrl(githubIssue.user.url);
-            author.setSourcePlatform(SourcePlatform.GITHUB);
             issue.setAuthor(author);
         }
 
@@ -113,10 +108,9 @@ public class Transformer {
             User assignee = new User();
             assignee.setId(githubIssue.assignee.id != null ? githubIssue.assignee.id.toString() : null);
             assignee.setUsername(githubIssue.assignee.login != null ? githubIssue.assignee.login : "");
-            assignee.setName(""); // GitHub no proporciona name en el assignee básico
+            assignee.setName("");
             assignee.setAvatarUrl(githubIssue.assignee.avatarUrl);
             assignee.setWebUrl(githubIssue.assignee.url);
-            assignee.setSourcePlatform(SourcePlatform.GITHUB);
             issue.setAssignee(assignee);
         }
 
@@ -133,10 +127,9 @@ public class Transformer {
         }
 
         issue.setComments(comments != null ? comments : new ArrayList<>());
-        issue.setSourcePlatform(SourcePlatform.GITHUB);
+        issue.setNumComments(comments != null ? comments.size() : 0);
+        issue.setRetrieved_at(LocalDateTime.now().toString());
 
         return issue;
     }
-
-
 }

@@ -1,53 +1,59 @@
 package aiss.github.model;
 
-import aiss.github.model.commitdata.SourcePlatform;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 
 
 @Entity
-@Table(name = "Commit")
+@Table(name = "commits")
+@JsonPropertyOrder({ "id", "title", "message", "author_name", "author_email", "authored_date", "web_url", "retrieved_at", "is_merge_commit"  })
 public class Commit {
 
-    @Id
-    @JsonProperty("id")
+    @Id                          //id no es generado porque nos lo dan el post
     private String id;
-    @JsonProperty("title")
+
+    @Column(name = "title")
     private String title;
 
-    @JsonProperty("message")
-    @Column(columnDefinition="TEXT")
+    @Lob
+    @Column(name = "message")
     private String message;
-    @JsonProperty("author_name")
-    @NotEmpty(message = "Author name cannot be empty.")
-    private String authorName;
-    @JsonProperty("author_email")
+
+    @Column(name = "author_name")
+    private String author_name;
+
+    @Column(name = "author_email")
     private String authorEmail;
-    @JsonProperty("authored_date")
-    @NotEmpty(message = "Author date cannot be empty.")
-    private String authoredDate;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "source_platform")
-    @JsonProperty("sourcePlatform")
-    private SourcePlatform sourcePlatform;
 
-    public SourcePlatform getSourcePlatform() {
-        return sourcePlatform;
-    }
+    @Column(name = "authored_date")
+    private String authored_date;
 
-    public void setSourcePlatform(SourcePlatform sourcePlatform) {
-        this.sourcePlatform = sourcePlatform;
-    }
+    @Column(name = "web_url")
+    private String web_url;
+
+    @Column(name = "retrieved_at")
+    private String retrieved_at;
+
+    @Column(name = "is_merge_commit")
+    private Boolean isMergeCommit;
 
 
-    @JsonProperty("web_url")
-    @NotEmpty(message = "URL cannot be empty." +
-            "")
+    public Commit() {}  //constructor vacio
 
-
-    private String webUrl;
+    public Commit(String id, String title, String message, String author_name, String author_email, String authored_date, String web_url, String retrieved_at, Boolean isMergeCommit) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.author_name = author_name;
+        this.authorEmail = author_email;
+        this.authored_date = authored_date;
+        this.web_url = web_url;
+        this.retrieved_at = retrieved_at;
+        this.isMergeCommit = isMergeCommit;
+    }    //constructor con parametros
 
     public String getId() {
         return id;
@@ -74,79 +80,51 @@ public class Commit {
     }
 
     public String getAuthorName() {
-        return authorName;
+        return author_name;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setAuthorName(String author_name) {
+        this.author_name = author_name;
     }
 
     public String getAuthorEmail() {
         return authorEmail;
     }
 
-    public void setAuthorEmail(String authorEmail) {
-        this.authorEmail = authorEmail;
+    public void setAuthorEmail(String author_email) {
+        this.authorEmail = author_email;
     }
 
     public String getAuthoredDate() {
-        return authoredDate;
+        return authored_date;
     }
 
-    public void setAuthoredDate(String authoredDate) {
-        this.authoredDate = authoredDate;
+    public void setAuthoredDate(String authored_date) {
+        this.authored_date = authored_date;
     }
 
     public String getWebUrl() {
-        return webUrl;
+        return web_url;
     }
 
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
+    public void setWebUrl(String web_url) {
+        this.web_url = web_url;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Commit.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null) ? "<null>" : this.id));
-        sb.append(',');
-        sb.append("title");
-        sb.append('=');
-        sb.append(((this.title == null) ? "<null>" : this.title));
-        sb.append(',');
-        sb.append("message");
-        sb.append('=');
-        sb.append(((this.message == null) ? "<null>" : this.message));
-        sb.append(',');
-        sb.append("authorName");
-        sb.append('=');
-        sb.append(((this.authorName == null) ? "<null>" : this.authorName));
-        sb.append(',');
-        sb.append("authorEmail");
-        sb.append('=');
-        sb.append(((this.authorEmail == null) ? "<null>" : this.authorEmail));
-        sb.append(',');
-        sb.append("authoredDate");
-        sb.append('=');
-        sb.append(((this.authoredDate == null) ? "<null>" : this.authoredDate));
-        sb.append(',');
-        sb.append("webUrl");
-        sb.append('=');
-        sb.append(((this.webUrl == null) ? "<null>" : this.webUrl));
-        sb.append(',');
-        sb.append("sourcePlatform");
-        sb.append('=');
-        sb.append(((this.sourcePlatform == null) ? "<null>" : this.sourcePlatform));
-        sb.append(',');
-
-        if (sb.charAt((sb.length() - 1)) == ',') {
-            sb.setCharAt((sb.length() - 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+    public String getRetrieved_at() {
+        return retrieved_at;
     }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
+    public Boolean getIsMergeCommit() {
+        return isMergeCommit;
+    }
+
+    public void setIsMergeCommit(Boolean isMergeCommit) {
+        this.isMergeCommit = isMergeCommit;
+    }
+
 }
