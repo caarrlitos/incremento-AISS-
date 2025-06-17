@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "issues")
-@JsonPropertyOrder({ "id", "title", "description", "state", "created_at", "updated_at", "closed_at", "labels", "author", "assignee", "votes", "comments" })
+@JsonPropertyOrder({ "id", "title", "description", "state", "created_at", "updated_at", "closed_at", "retrieved_at", "num_comments", "labels", "author", "assignee", "votes", "comments" })
 public class Issue {
     @Id                      //id no se autogenera porque lo metemos en los post
     private String id;
@@ -36,6 +36,12 @@ public class Issue {
     @Column(name = "closed_at")
     private String closed_at;
 
+    @Column(name = "retrieved_at")
+    private String retrieved_at;
+
+    @Column(name = "num_comments")
+    private Integer numComments;
+
     @ElementCollection
     @CollectionTable(name = "issueLabels", joinColumns = @JoinColumn(name = "issue_id"))
     @Column(name = "labels")
@@ -56,9 +62,9 @@ public class Issue {
     @JoinColumn(name = "issue_id")
     private List<Comment> comments;
 
-    public Issue() {}  //constructo vacio
+    public Issue() {}  //constructor vacio
 
-    public Issue(String id, String title, String description, String state, String created_at, String updated_at, String closed_at, List<String> labels, Integer votes, User author, User assignee, List<Comment> comments) {
+    public Issue(String id, String title, String description, String state, String created_at, String updated_at, String closed_at, String retrieved_at, Integer numComments ,List<String> labels, Integer votes, User author, User assignee, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -66,6 +72,8 @@ public class Issue {
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.closed_at = closed_at;
+        this.retrieved_at = retrieved_at;
+        this.numComments = numComments;
         this.labels = labels;
         this.votes = votes;
         this.author = author;
@@ -128,6 +136,23 @@ public class Issue {
     public void setClosedAt(String closed_at) {
         this.closed_at = closed_at;
     }
+
+    public String getRetrieved_at() {
+        return retrieved_at;
+    }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
+    public Integer getNumComments() {
+        return numComments;
+    }
+
+    public void setNumComments(Integer numComments) {
+        this.numComments = numComments;
+    }
+
 
     public List<String> getLabels() {
         return labels;

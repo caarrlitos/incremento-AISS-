@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "projects")
-@JsonPropertyOrder({ "id", "name", "web_url", "commits", "issues" })
+@JsonPropertyOrder({ "id", "name", "web_url", "retrieved_at", "commits", "issues" })
 public class Project {
 
     @Id
@@ -22,6 +22,10 @@ public class Project {
     @Column(name = "web_url")
     private String web_url;
 
+    @Column(name = "retrieved_at")
+    private String retrieved_at;
+
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "project_id")
     private List<Commit> commits;
@@ -32,10 +36,11 @@ public class Project {
 
     public Project() {}
 
-    public Project(String id, String name, String web_url, List<Commit> commits, List<Issue> issues) {
+    public Project(String id, String name, String web_url, String retrieved_at, List<Commit> commits, List<Issue> issues) {
         this.id = id;
         this.name = name;
         this.web_url = web_url;
+        this.retrieved_at = retrieved_at;
         this.commits = commits;
         this.issues = issues;
     }
@@ -63,6 +68,15 @@ public class Project {
     public void setWebUrl(String web_url) {
         this.web_url = web_url;
     }
+
+    public String getRetrieved_at() {
+        return retrieved_at;
+    }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
 
     public List<Commit> getCommits() {
         return commits;

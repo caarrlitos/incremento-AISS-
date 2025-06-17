@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "commits")
-@JsonPropertyOrder({ "id", "title", "message", "author_name", "author_email", "authored_date", "web_url" })
+@JsonPropertyOrder({ "id", "title", "message", "author_name", "author_email", "authored_date", "web_url", "retrieved_at", "is_merge_commit"  })
 public class Commit {
 
     @Id                          //id no es generado porque nos lo dan el post
@@ -38,24 +38,15 @@ public class Commit {
     @Column(name = "web_url")
     private String web_url;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "source_platform")
-    @JsonProperty("sourcePlatform")
-    private SourcePlatform sourcePlatform;
+    @Column(name = "retrieved_at")
+    private String retrieved_at;
 
-    public SourcePlatform getSourcePlatform() {
-        return sourcePlatform;
-    }
-
-    public void setSourcePlatform(SourcePlatform sourcePlatform) {
-        this.sourcePlatform = sourcePlatform;
-    }
+    @Column(name = "is_merge_commit")
+    private Boolean isMergeCommit;
 
     public Commit() {}  //constructor vacio
 
-    public Commit(String id, String title, String message, String author_name,
-                  String author_email, String authored_date, String web_url,
-                  SourcePlatform sourcePlatform) {
+    public Commit(String id, String title, String message, String author_name, String author_email, String authored_date, String web_url, String retrieved_at, Boolean isMergeCommit) {
         this.id = id;
         this.title = title;
         this.message = message;
@@ -63,9 +54,9 @@ public class Commit {
         this.authorEmail = author_email;
         this.authored_date = authored_date;
         this.web_url = web_url;
-        this.sourcePlatform = sourcePlatform;
-    }
-
+        this.retrieved_at = retrieved_at;
+        this.isMergeCommit = isMergeCommit;
+    }    //constructor con parametros
 
     public String getId() {
         return id;
@@ -122,4 +113,21 @@ public class Commit {
     public void setWebUrl(String web_url) {
         this.web_url = web_url;
     }
+
+    public String getRetrieved_at() {
+        return retrieved_at;
+    }
+
+    public void setRetrieved_at(String retrieved_at) {
+        this.retrieved_at = retrieved_at;
+    }
+
+    public Boolean getIsMergeCommit() {
+        return isMergeCommit;
+    }
+
+    public void setIsMergeCommit(Boolean isMergeCommit) {
+        this.isMergeCommit = isMergeCommit;
+    }
+
 }

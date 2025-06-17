@@ -1,15 +1,13 @@
 package aiss.GitMiner.controller;
 
-import aiss.GitMiner.model.Comment;
-import aiss.GitMiner.model.Issue;
-import aiss.GitMiner.model.Project;
-import aiss.GitMiner.model.User;
+import aiss.GitMiner.model.*;
 import aiss.GitMiner.repository.ProjectRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,8 +52,29 @@ public class ProjectController {
             }
         }
 
+        String now = LocalDateTime.now().toString();
 
-        Project newProject = projectRepository.save(new Project(project.getId(), project.getName(), project.getWebUrl(), project.getCommits(), project.getIssues()));
+        for (Commit commit : project.getCommits()) {
+            commit.setRetrieved_at(now);
+        }
+
+        for (Issue issue : project.getIssues()) {
+            issue.setRetrieved_at(now);
+            issue.setNumComments(issue.getComments() != null ? issue.getComments().size() : 0);
+
+
+            for (Comment comment : issue.getComments()) {
+                comment.setRetrieved_at(now);
+            }
+        }
+
+        for (Commit commit : project.getCommits()) {
+            commit.setRetrieved_at(now);
+            String msg = commit.getMessage() != null ? commit.getMessage().toLowerCase() : "";
+            commit.setIsMergeCommit(msg.contains("merge"));
+        }
+
+        Project newProject = projectRepository.save(new Project(project.getId(), project.getName(), project.getWebUrl(), LocalDateTime.now().toString(), project.getCommits(), project.getIssues()));
 
         return newProject;
     }
