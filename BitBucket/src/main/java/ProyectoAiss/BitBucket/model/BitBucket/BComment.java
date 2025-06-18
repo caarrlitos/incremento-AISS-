@@ -32,6 +32,9 @@ public class BComment {
     @JsonProperty("retrieved_at")
     private String retrieved_at;
 
+    @JsonProperty("isBot")
+    private boolean isBot;
+
     public String getId() {
         return id;
     }
@@ -80,6 +83,12 @@ public class BComment {
         this.retrieved_at = retrieved_at;
     }
 
+    public boolean getIsBot() {return isBot; }
+
+    public void setIsBot(boolean isBot) {
+        this.isBot = isBot;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -90,6 +99,11 @@ public class BComment {
         sb.append("createdAt=").append(createdAt == null ? "<null>" : createdAt).append(',');
         sb.append("updatedAt=").append(updatedAt == null ? "<null>" : updatedAt).append(',');
         sb.append("retrieved_at=").append(retrieved_at == null ? "<null>" : retrieved_at).append(',');
+        sb.append(',');
+        sb.append("isBot");
+        sb.append('=');
+        sb.append(!this.isBot ? "<null>" : true);
+        sb.append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {

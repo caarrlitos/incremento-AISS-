@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comments")
-@JsonPropertyOrder({ "id", "body", "author", "created_at", "updated_at", "retrieved_at" })
+@JsonPropertyOrder({ "id", "body", "author", "created_at", "updated_at", "retrieved_at", "isBot" })
 public class Comment {
 
     @Id
@@ -32,15 +32,19 @@ public class Comment {
     @JoinColumn(name = "authorId")
     private User author;
 
+    @Column(name = "isBot")
+    private boolean isBot;
+
     public Comment() {}
 
-    public Comment(String id, String body, String created_at, String updated_at, String retrieved_at, User author) {
+    public Comment(String id, String body, String created_at, String updated_at, String retrieved_at, User author, boolean isBot) {
         this.id = id;
         this.body = body;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.retrieved_at = retrieved_at;
         this.author = author;
+        this.isBot = isBot;
     }
 
     public String getId() {
@@ -90,6 +94,12 @@ public class Comment {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public boolean getIsBot() {return isBot; }
+
+    public void setIsBot(boolean isBot) {
+        this.isBot = this.isBot;
     }
 
 }

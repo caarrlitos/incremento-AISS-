@@ -79,6 +79,15 @@ public class Transformer {
         comment.setUpdatedAt(githubComment.updatedAt != null ? githubComment.updatedAt : "");
         comment.setRetrieved_at(LocalDateTime.now().toString());
 
+        boolean isCommentFromBot = false;
+        if (githubComment.user.login != null) {
+            String login = githubComment.user.login.toLowerCase();
+            if (login.contains("[bot]") || login.equalsIgnoreCase("github-actions")) {
+                isCommentFromBot = true;
+            }
+        }
+        comment.setIsBot(isCommentFromBot);
+
         return comment;
     }
 

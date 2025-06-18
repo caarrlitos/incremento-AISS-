@@ -10,7 +10,7 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "comments")
-@JsonPropertyOrder({ "id", "body", "author", "created_at", "updated_at", "retrieved_at" })
+@JsonPropertyOrder({ "id", "body", "author", "created_at", "updated_at", "retrieved_at", "is_bot" })
 public class Comment {
 
     @Id
@@ -34,15 +34,20 @@ public class Comment {
     @JoinColumn(name = "authorId")
     private User author;
 
+    @JsonProperty
+    @Column(name = "is_bot")
+    private boolean isBot;
+
     public Comment() {}
 
-    public Comment(String id, String body, String created_at, String updated_at, String retrieved_at, User author) {
+    public Comment(String id, String body, String created_at, String updated_at, String retrieved_at, User author, boolean isBot) {
         this.id = id;
         this.body = body;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.retrieved_at = retrieved_at;
         this.author = author;
+        this.isBot = isBot;
     }
 
     public String getId() {
@@ -92,6 +97,12 @@ public class Comment {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Boolean getIsBot() {return isBot; }
+
+    public void setIsBot(boolean bot) {
+        this.isBot = bot;
     }
 
 }

@@ -82,6 +82,31 @@ public class TransformerBitBucket {
             comment.setUpdatedAt(bitBucketIssueComment.updatedOn.toString());
         }
 
+        boolean isCommentFromBot = false;
+
+        if (bitBucketIssueComment.user != null) {
+            user = new BUser();
+            user.setId(bitBucketIssueComment.user.uuid);
+            user.setUsername(bitBucketIssueComment.user.nickname);
+            user.setName(bitBucketIssueComment.user.displayName);
+
+            if (bitBucketIssueComment.user.links != null) {
+                if (bitBucketIssueComment.user.links.avatar != null) {
+                    user.setAvatarUrl(bitBucketIssueComment.user.links.avatar.href);
+                }
+                if (bitBucketIssueComment.user.links.html != null) {
+                    user.setWebUrl(bitBucketIssueComment.user.links.html.href);
+                }
+            }
+            if (user.getUsername() != null) {
+                String username = user.getUsername().toLowerCase();
+                if (username.endsWith("bot") || username.contains("automation") || username.contains("ci-cd")) {
+                    isCommentFromBot = true;
+                }
+            }
+        }
+        comment.setIsBot(isCommentFromBot);
+
         comment.setRetrieved_at(LocalDateTime.now().toString());
 
 

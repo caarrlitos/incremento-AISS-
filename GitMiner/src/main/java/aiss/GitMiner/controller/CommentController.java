@@ -30,7 +30,7 @@ public class CommentController {
     @PostMapping
     public Comment create(@Valid @RequestBody Comment comment) {       //cogemos las propiedades del body y lo metemos en el constructor
         Comment newComment = commentRepository.save(
-                new Comment(comment.getId(), comment.getBody(), comment.getCreatedAt(), comment.getUpdatedAt(), comment.getRetrieved_at(), comment.getAuthor()));
+                new Comment(comment.getId(), comment.getBody(), comment.getCreatedAt(), comment.getUpdatedAt(), comment.getRetrieved_at(), comment.getAuthor(),comment.getIsBot()));
         return newComment;
     }
 
@@ -45,6 +45,7 @@ public class CommentController {
         _comment.setCreatedAt(updatedComment.getCreatedAt());
         _comment.setUpdatedAt(updatedComment.getUpdatedAt());
         _comment.setAuthor(updatedComment.getAuthor());
+        _comment.setIsBot(updatedComment.getIsBot());
         commentRepository.save(_comment);
     }
 
