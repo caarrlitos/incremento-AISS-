@@ -52,19 +52,32 @@ public class ProjectController {
             }
         }
 
+        if (project.getSourcePlatform() == null && project.getWebUrl() != null) {
+            String url = project.getWebUrl().toLowerCase();
+            if (url.contains("github")) {
+                project.setSourcePlatform(SourcePlatform.GITHUB);
+            } else if (url.contains("bitbucket")) {
+                project.setSourcePlatform(SourcePlatform.BITBUCKET);
+            }
+        }
+
         String now = LocalDateTime.now().toString();
 
         for (Commit commit : project.getCommits()) {
             commit.setRetrieved_at(now);
+            commit.setSourcePlatform(project.getSourcePlatform());
         }
 
         for (Issue issue : project.getIssues()) {
             issue.setRetrieved_at(now);
+            issue.setSourcePlatform(project.getSourcePlatform());
             issue.setNumComments(issue.getComments() != null ? issue.getComments().size() : 0);
 
 
             for (Comment comment : issue.getComments()) {
                 comment.setRetrieved_at(now);
+                comment.setSourcePlatform(project.getSourcePlatform());
+
             }
         }
 
@@ -74,7 +87,7 @@ public class ProjectController {
             commit.setIsMergeCommit(msg.contains("merge"));
         }
 
-        Project newProject = projectRepository.save(new Project(project.getId(), project.getName(), project.getWebUrl(), LocalDateTime.now().toString(), project.getCommits(), project.getIssues()));
+        Project newProject = projectRepository.save(new Project(project.getId(), project.getName(), project.getWebUrl(), LocalDateTime.now().toString(), project.getSourcePlatform(), project.getCommits(), project.getIssues()));
 
         return newProject;
     }
@@ -90,6 +103,8 @@ public class ProjectController {
         _project.setWebUrl(project.getWebUrl());
         _project.setCommits(project.getCommits());
         _project.setIssues(project.getIssues());
+        _project.setSourcePlatform(project.getSourcePlatform());
+
         return projectRepository.save(_project);
     }
 

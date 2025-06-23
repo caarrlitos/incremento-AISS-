@@ -26,6 +26,10 @@ public class BProject {
     @JsonProperty("retrieved_at")
     private String retrieved_at;
 
+    @JsonProperty("source_platform")
+    @Enumerated(EnumType.STRING)
+    private SourcePlatform sourcePlatform;
+
     @JsonProperty("commits")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
@@ -73,6 +77,14 @@ public class BProject {
         this.retrieved_at = retrieved_at;
     }
 
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
+
     public List<BCommit> getCommits() {
         return commits;
     }
@@ -97,6 +109,7 @@ public class BProject {
         sb.append("name=").append(name == null ? "<null>" : name).append(',');
         sb.append("webUrl=").append(webUrl == null ? "<null>" : webUrl).append(',');
         sb.append("retrieved_at=").append(retrieved_at == null ? "<null>" : retrieved_at).append(',');
+        sb.append("sourcePlatform=").append(sourcePlatform == null ? "<null>" : sourcePlatform).append(',');
         sb.append("commits=").append(commits == null ? "<null>" : commits).append(',');
         sb.append("issues=").append(issues == null ? "<null>" : issues).append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {

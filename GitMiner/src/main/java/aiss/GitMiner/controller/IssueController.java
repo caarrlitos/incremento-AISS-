@@ -49,7 +49,7 @@ public class IssueController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Issue create(@Valid @RequestBody Issue issue) {
-        Issue newIssue = issueRepository.save(new Issue(issue.getId(), issue.getTitle(), issue.getDescription(), issue.getState(), issue.getCreatedAt(), issue.getUpdatedAt(), issue.getClosedAt(), issue.getRetrieved_at(), issue.getNumComments(), issue.getLabels(), issue.getVotes(), issue.getAuthor(), issue.getAssignee(), issue.getComments()));
+        Issue newIssue = issueRepository.save(new Issue(issue.getId(), issue.getTitle(), issue.getDescription(), issue.getState(), issue.getCreatedAt(), issue.getUpdatedAt(), issue.getClosedAt(), issue.getRetrieved_at(), issue.getNumComments(), issue.getSourcePlatform(), issue.getLabels(), issue.getVotes(), issue.getAuthor(), issue.getAssignee(), issue.getComments()));
         return newIssue;
     }
 
@@ -71,6 +71,7 @@ public class IssueController {
         _issue.setAuthor(issue.getAuthor());
         _issue.setAssignee(issue.getAssignee());
         _issue.setComments(issue.getComments());
+        _issue.setSourcePlatform(issue.getSourcePlatform());
         return issueRepository.save(_issue);
     }
 

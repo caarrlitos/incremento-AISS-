@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "issues")
-@JsonPropertyOrder({ "id", "title", "description", "state", "created_at", "updated_at", "closed_at", "retrieved_at", "num_comments", "labels", "author", "assignee", "votes", "comments" })
+@JsonPropertyOrder({ "id", "title", "description", "state", "created_at", "updated_at", "closed_at", "retrieved_at", "num_comments", "source_platform", "labels", "author", "assignee", "votes", "comments" })
 public class Issue {
     @Id                      //id no se autogenera porque lo metemos en los post
     private String id;
@@ -42,6 +42,10 @@ public class Issue {
     @Column(name = "num_comments")
     private Integer numComments;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_platform")
+    private SourcePlatform sourcePlatform;
+
     @ElementCollection
     @CollectionTable(name = "issueLabels", joinColumns = @JoinColumn(name = "issue_id"))
     @Column(name = "labels")
@@ -64,7 +68,7 @@ public class Issue {
 
     public Issue() {}  //constructor vacio
 
-    public Issue(String id, String title, String description, String state, String created_at, String updated_at, String closed_at, String retrieved_at, Integer numComments ,List<String> labels, Integer votes, User author, User assignee, List<Comment> comments) {
+    public Issue(String id, String title, String description, String state, String created_at, String updated_at, String closed_at, String retrieved_at, Integer numComments, SourcePlatform sourcePlatform, List<String> labels, Integer votes, User author, User assignee, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -74,6 +78,7 @@ public class Issue {
         this.closed_at = closed_at;
         this.retrieved_at = retrieved_at;
         this.numComments = numComments;
+        this.sourcePlatform = sourcePlatform;
         this.labels = labels;
         this.votes = votes;
         this.author = author;
@@ -153,6 +158,13 @@ public class Issue {
         this.numComments = numComments;
     }
 
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
 
     public List<String> getLabels() {
         return labels;

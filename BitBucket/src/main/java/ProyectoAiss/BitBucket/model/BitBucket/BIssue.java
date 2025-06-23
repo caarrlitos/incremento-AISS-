@@ -38,6 +38,10 @@ public class BIssue {
     @JsonProperty("num_comments")
     private Integer numComments;
 
+    @JsonProperty("source_platform")
+    @Enumerated(EnumType.STRING)
+    private SourcePlatform sourcePlatform;
+
     @JsonProperty("labels")
     @ElementCollection
     private List<String> labels;
@@ -138,6 +142,14 @@ public class BIssue {
         this.numComments = numComments;
     }
 
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
+
     public List<String> getLabels() {
         return labels;
     }
@@ -205,6 +217,7 @@ public class BIssue {
         sb.append("votes=").append(votes == null ? "<null>" : votes).append(',');
         sb.append("comments=").append(comments == null ? "<null>" : comments).append(',');
         sb.append("numComments=").append(numComments == null ? "<null>" : numComments).append(',');
+        sb.append("sourcePlatform=").append(sourcePlatform == null ? "<null>" : sourcePlatform).append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {

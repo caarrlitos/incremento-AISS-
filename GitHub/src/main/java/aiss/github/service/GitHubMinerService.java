@@ -4,6 +4,7 @@ import aiss.github.etl.Transformer;
 import aiss.github.model.Project;
 import aiss.github.model.Commit;
 import aiss.github.model.Issue;
+import aiss.github.model.SourcePlatform;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,17 +32,17 @@ public class GitHubMinerService {
         List<Issue> issues = issueService.sinceIssues(owner, repo, nIssues, maxPages);
 
         Project project = new Project();
-        if (!commits.isEmpty()) {
-            Commit firstCommit = commits.get(0);
-            String repoId = owner + "/" + repo;
-            project.setId(repoId);
-            project.setName(repo);
-            project.setWebUrl("https://github.com/" + owner + "/" + repo);
-            project.setRetrieved_at(LocalDateTime.now().toString());
-        }
+
+        String repoId = owner + "/" + repo;
+        project.setId(repoId);
+        project.setName(repo);
+        project.setWebUrl("https://github.com/" + owner + "/" + repo);
+        project.setRetrieved_at(LocalDateTime.now().toString());
+        project.setSourcePlatform(SourcePlatform.GITHUB);
 
         project.setCommits(commits);
         project.setIssues(issues);
+
 
         return project;
     }

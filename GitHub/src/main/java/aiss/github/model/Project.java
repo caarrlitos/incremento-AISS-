@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "projects")
-@JsonPropertyOrder({ "id", "name", "web_url", "retrieved_at", "commits", "issues" })
+@JsonPropertyOrder({ "id", "name", "web_url", "retrieved_at", "source_platform", "commits", "issues" })
 public class Project {
 
     @Id
@@ -28,6 +28,9 @@ public class Project {
     @Column(name = "retrieved_at")
     private String retrieved_at;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_platform")
+    private SourcePlatform sourcePlatform;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "project_id")
@@ -39,11 +42,12 @@ public class Project {
 
     public Project() {}
 
-    public Project(String id, String name, String web_url, String retrieved_at, List<Commit> commits, List<Issue> issues) {
+    public Project(String id, String name, String web_url, String retrieved_at, SourcePlatform sourcePlatform, List<Commit> commits, List<Issue> issues) {
         this.id = id;
         this.name = name;
         this.web_url = web_url;
         this.retrieved_at = retrieved_at;
+        this.sourcePlatform = sourcePlatform;
         this.commits = commits;
         this.issues = issues;
     }
@@ -80,6 +84,13 @@ public class Project {
         this.retrieved_at = retrieved_at;
     }
 
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
 
     public List<Commit> getCommits() {
         return commits;

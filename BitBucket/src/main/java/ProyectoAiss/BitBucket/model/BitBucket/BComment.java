@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
+
 @Entity
 @Table(name = "BComment")
 public class BComment {
@@ -35,6 +36,11 @@ public class BComment {
     @JsonProperty("isBot")
     private boolean isBot;
 
+    @JsonProperty("source_platform")
+    @Enumerated(EnumType.STRING)
+    private SourcePlatform sourcePlatform;
+
+    // Getters and setters
     public String getId() {
         return id;
     }
@@ -83,10 +89,20 @@ public class BComment {
         this.retrieved_at = retrieved_at;
     }
 
-    public boolean getIsBot() {return isBot; }
+    public boolean getIsBot() {
+        return isBot;
+    }
 
     public void setIsBot(boolean isBot) {
         this.isBot = isBot;
+    }
+
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
     }
 
     @Override
@@ -99,16 +115,9 @@ public class BComment {
         sb.append("createdAt=").append(createdAt == null ? "<null>" : createdAt).append(',');
         sb.append("updatedAt=").append(updatedAt == null ? "<null>" : updatedAt).append(',');
         sb.append("retrieved_at=").append(retrieved_at == null ? "<null>" : retrieved_at).append(',');
-        sb.append(',');
-        sb.append("isBot");
-        sb.append('=');
-        sb.append(!this.isBot ? "<null>" : true);
-        sb.append(',');
-        if (sb.charAt((sb.length() - 1)) == ',') {
-            sb.setCharAt((sb.length() - 1), ']');
-        } else {
-            sb.append(']');
-        }
+        sb.append("isBot=").append(isBot).append(',');
+        sb.append("sourcePlatform=").append(sourcePlatform == null ? "<null>" : sourcePlatform);
+        sb.append(']');
         return sb.toString();
     }
 }

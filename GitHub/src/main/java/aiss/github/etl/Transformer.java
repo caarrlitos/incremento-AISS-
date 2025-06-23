@@ -1,18 +1,19 @@
 package aiss.github.etl;
 
-import aiss.github.model.commitdata.*;
-import aiss.github.model.issuedata.*;
+import aiss.github.model.*;
 import aiss.github.model.Comment;
 import aiss.github.model.Commit;
-import aiss.github.model.Issue;
-import aiss.github.model.Project;
 import aiss.github.model.User;
+import aiss.github.model.commitdata.*;
+import aiss.github.model.issuedata.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static aiss.github.model.SourcePlatform.*;
 
 @Component
 public class Transformer {
@@ -51,6 +52,8 @@ public class Transformer {
         }
 
         commit.setRetrieved_at(LocalDateTime.now().toString());
+        commit.setSourcePlatform(GITHUB);
+
 
         return commit;
     }
@@ -87,6 +90,7 @@ public class Transformer {
             }
         }
         comment.setIsBot(isCommentFromBot);
+        comment.setSourcePlatform(GITHUB);
 
         return comment;
     }
@@ -138,6 +142,7 @@ public class Transformer {
         issue.setComments(comments != null ? comments : new ArrayList<>());
         issue.setNumComments(comments != null ? comments.size() : 0);
         issue.setRetrieved_at(LocalDateTime.now().toString());
+        issue.setSourcePlatform(GITHUB);
 
         return issue;
     }

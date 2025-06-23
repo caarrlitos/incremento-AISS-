@@ -36,7 +36,7 @@ public class CommitController {
     @PostMapping
     public Commit create(@Valid @RequestBody Commit commit) {
         Commit newCommit = commitRepository.save(
-                new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getWebUrl(), commit.getRetrieved_at(), commit.getIsMergeCommit()));
+                new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getWebUrl(), commit.getRetrieved_at(), commit.getIsMergeCommit(), commit.getSourcePlatform()));
         return newCommit;
     }
 
@@ -53,6 +53,7 @@ public class CommitController {
         _commit.setAuthorEmail(updatedCommit.getAuthorEmail());
         _commit.setAuthoredDate(updatedCommit.getAuthoredDate());
         _commit.setWebUrl(updatedCommit.getWebUrl());
+        _commit.setSourcePlatform(updatedCommit.getSourcePlatform());
         commitRepository.save(_commit);
     }
 

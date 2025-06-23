@@ -10,7 +10,7 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "comments")
-@JsonPropertyOrder({ "id", "body", "author", "created_at", "updated_at", "retrieved_at", "is_bot" })
+@JsonPropertyOrder({ "id", "body", "author", "created_at", "updated_at", "retrieved_at", "isBot", "source_platform" })
 public class Comment {
 
     @Id
@@ -29,23 +29,26 @@ public class Comment {
     @Column(name = "retrieved_at")
     private String retrieved_at;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_platform")
+    private SourcePlatform sourcePlatform;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "authorId")
     private User author;
 
-    @JsonProperty
-    @Column(name = "is_bot")
+    @Column(name = "isBot")
     private boolean isBot;
 
     public Comment() {}
 
-    public Comment(String id, String body, String created_at, String updated_at, String retrieved_at, User author, boolean isBot) {
+    public Comment(String id, String body, String created_at, String updated_at, String retrieved_at, SourcePlatform sourcePlatform, User author, boolean isBot) {
         this.id = id;
         this.body = body;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.retrieved_at = retrieved_at;
+        this.sourcePlatform = sourcePlatform;
         this.author = author;
         this.isBot = isBot;
     }
@@ -90,6 +93,13 @@ public class Comment {
         this.retrieved_at = retrieved_at;
     }
 
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
 
     public User getAuthor() {
         return author;
@@ -99,10 +109,11 @@ public class Comment {
         this.author = author;
     }
 
-    public Boolean getIsBot() {return isBot; }
+    public boolean getIsBot() {return isBot; }
 
-    public void setIsBot(boolean bot) {
-        this.isBot = bot;
+    public void setIsBot(boolean isBot) {
+        this.isBot = isBot;
     }
 
 }
+

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "commits")
-@JsonPropertyOrder({ "id", "title", "message", "author_name", "author_email", "authored_date", "web_url", "retrieved_at", "is_merge_commit"  })
+@JsonPropertyOrder({ "id", "title", "message", "author_name", "author_email", "authored_date", "web_url", "retrieved_at", "is_merge_commit", "source_platform"  })
 public class Commit {
 
     @Id                          //id no es generado porque nos lo dan el post
@@ -44,9 +44,13 @@ public class Commit {
     @Column(name = "is_merge_commit")
     private Boolean isMergeCommit;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_platform")
+    private SourcePlatform sourcePlatform;
+
     public Commit() {}  //constructor vacio
 
-    public Commit(String id, String title, String message, String author_name, String author_email, String authored_date, String web_url, String retrieved_at, Boolean isMergeCommit) {
+    public Commit(String id, String title, String message, String author_name, String author_email, String authored_date, String web_url, String retrieved_at, Boolean isMergeCommit, SourcePlatform sourcePlatform) {
         this.id = id;
         this.title = title;
         this.message = message;
@@ -56,6 +60,7 @@ public class Commit {
         this.web_url = web_url;
         this.retrieved_at = retrieved_at;
         this.isMergeCommit = isMergeCommit;
+        this.sourcePlatform = sourcePlatform;
     }    //constructor con parametros
 
     public String getId() {
@@ -128,6 +133,14 @@ public class Commit {
 
     public void setIsMergeCommit(Boolean isMergeCommit) {
         this.isMergeCommit = isMergeCommit;
+    }
+
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
     }
 
 }

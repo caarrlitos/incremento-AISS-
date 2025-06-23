@@ -1,10 +1,7 @@
 package ProyectoAiss.BitBucket.etl;
 
-import ProyectoAiss.BitBucket.model.BitBucket.BComment;
-import ProyectoAiss.BitBucket.model.BitBucket.BCommit;
-import ProyectoAiss.BitBucket.model.BitBucket.BIssue;
+import ProyectoAiss.BitBucket.model.BitBucket.*;
 import ProyectoAiss.BitBucket.model.BitBucket.CommitData.BCCommitData;
-import ProyectoAiss.BitBucket.model.BitBucket.BUser;
 import ProyectoAiss.BitBucket.model.BitBucket.IssueData.BIComments;
 import ProyectoAiss.BitBucket.model.BitBucket.IssueData.BIssueData;
 import org.springframework.stereotype.Component;
@@ -41,6 +38,7 @@ public class TransformerBitBucket {
         }
 
         commit.setRetrieved_at(LocalDateTime.now().toString());
+        commit.setSourcePlatform(SourcePlatform.BITBUCKET);
 
 
 
@@ -106,8 +104,8 @@ public class TransformerBitBucket {
             }
         }
         comment.setIsBot(isCommentFromBot);
-
         comment.setRetrieved_at(LocalDateTime.now().toString());
+        comment.setSourcePlatform(SourcePlatform.BITBUCKET);
 
 
         return comment;
@@ -163,6 +161,7 @@ public class TransformerBitBucket {
         issue.setComments(comments);
         issue.setNumComments(comments != null ? comments.size() : 0);
         issue.setRetrieved_at(LocalDateTime.now().toString());
+        issue.setSourcePlatform(SourcePlatform.BITBUCKET);
 
 
         return issue;

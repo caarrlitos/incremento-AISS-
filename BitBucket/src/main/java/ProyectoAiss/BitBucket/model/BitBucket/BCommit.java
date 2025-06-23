@@ -3,10 +3,7 @@ package ProyectoAiss.BitBucket.model.BitBucket;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -44,6 +41,10 @@ public class BCommit {
 
     @JsonProperty("is_merge_commit")
     private Boolean isMergeCommit;
+
+    @JsonProperty("source_platform")
+    @Enumerated(EnumType.STRING)
+    private SourcePlatform sourcePlatform;
 
     @JsonIgnore
     private String repositoryId;
@@ -128,6 +129,14 @@ public class BCommit {
         this.isMergeCommit = isMergeCommit;
     }
 
+    public SourcePlatform getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public void setSourcePlatform(SourcePlatform sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
+    }
+
     public String getRepositoryId() {
         return repositoryId;
     }
@@ -165,6 +174,7 @@ public class BCommit {
         sb.append("webUrl=").append(webUrl == null ? "<null>" : webUrl).append(',');
         sb.append("retrieved_at=").append(retrieved_at == null ? "<null>" : retrieved_at).append(',');
         sb.append("isMergeCommit=").append(isMergeCommit == null ? "<null>" : isMergeCommit).append(',');
+        sb.append("sourcePlatform=").append(sourcePlatform == null ? "<null>" : sourcePlatform).append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');
         } else {
