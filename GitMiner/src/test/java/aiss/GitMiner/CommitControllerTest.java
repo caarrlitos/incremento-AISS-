@@ -2,6 +2,7 @@ package aiss.GitMiner;
 
 import aiss.GitMiner.controller.CommitController;
 import aiss.GitMiner.model.Commit;
+import aiss.GitMiner.model.SourcePlatform;
 import aiss.GitMiner.repository.CommitRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,8 @@ public class CommitControllerTest {
                 "2024-06-25T12:00:00Z",
                 "http://ejemplo.com/commit123",
                 "2024-06-26T12:00:00Z",
-                false
+                false,
+                SourcePlatform.GITHUB
         );
     }
 
@@ -109,7 +111,8 @@ public class CommitControllerTest {
                 "2024-06-27T12:00:00Z",
                 "http://ejemplo.com/commit123",
                 "2024-06-28T12:00:00Z",
-                true
+                true,
+                SourcePlatform.GITHUB
         );
 
         String json = objectMapper.writeValueAsString(updatedCommit);
