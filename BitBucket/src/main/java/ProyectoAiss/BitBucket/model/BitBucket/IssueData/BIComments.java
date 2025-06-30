@@ -29,7 +29,7 @@ public class BIComments {
     @JsonProperty("created_on")
     public String createdOn;
     @JsonProperty("updated_on")
-    public Object updatedOn;
+    public String updatedOn;
     @JsonProperty("content")
     public BIContent content;
     @JsonProperty("user")

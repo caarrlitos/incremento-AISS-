@@ -2,10 +2,18 @@ package aiss.GitMiner.controller;
 
 import aiss.GitMiner.model.*;
 import aiss.GitMiner.repository.ProjectRepository;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -13,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Tag(name="Project",description = "Project management API")
 @RestController
 @RequestMapping("/gitminer/projects")
 public class ProjectController {
@@ -20,15 +29,53 @@ public class ProjectController {
     @Autowired
     ProjectRepository projectRepository;
 
+    @Operation(summary="retrieve Projects",description="returns all existent Projects", tags={"Project","get"})
+    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = Project.class))}, description = "Successfully retrieved Projects")
     @GetMapping
-    public List<Project> getAllProjects() {return projectRepository.findAll();}
-
-    @GetMapping("/{id}")
-    public Project getProjectById(@PathVariable String id) {
-        Optional<Project> project = projectRepository.findById(id);
-        return project.get();
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
     }
 
+    @Operation(summary="retrieve Project by id",description="returns the Project with the specified id", tags={"Project","get","id"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = Project.class))}, description = "Successfully retrieved Project"),
+            @ApiResponse(responseCode ="404" ,content = {@Content(schema = @Schema())},description = "Project not found")
+    })
+    @GetMapping("/{id}")
+    public Project getProjectById(@Parameter(description = "id of the Project to be obtained",required = true) @PathVariable String id) {
+        if(!projectRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return projectRepository.findById(id).get();
+    }
+
+
+
+    //nuevo metodo añadido con url: http://localhost:8080/gitminer/projects/{sourcePlatform}
+    /*@Operation(summary = "retrieve Project by his source platform", description = "returns a list of Project with the source platform specified", tags={"Project","get"})
+    @ApiResponses({@ApiResponse(responseCode = "200", content={@Content(schema = @Schema(implementation = Project.class))}),
+                    @ApiResponse(responseCode ="404" ,content = {@Content(schema = @Schema())},description = "Projects not found")
+    })
+    @GetMapping("/sourcePlatform/{sourcePlatform}")
+    public List<Project> getProjectBySourcePlatform(@Parameter(description = "source platform specified",required = true) @PathVariable String sourcePlatform) {
+        SourcePlatform platform = SourcePlatform.valueOf(sourcePlatform.toUpperCase());
+        List<Project> listaTotal=projectRepository.findAll();
+        listaTotal.removeIf(project -> !project.getSourcePlatform().equals(platform));
+        if(listaTotal.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return listaTotal;
+    }
+    */
+
+
+
+
+    @Operation(summary="insert a Project",description="add a new Project whose data is passed in the body of the request in JSON format", tags={"Project","post"})
+    @ApiResponses ({
+            @ApiResponse(responseCode = "201", content = {@Content(schema = @Schema(implementation = Project.class))}),
+            @ApiResponse(responseCode = "400", content = {@Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Project create(@Valid @RequestBody Project project) {
@@ -88,31 +135,46 @@ public class ProjectController {
         }
 
         Project newProject = projectRepository.save(new Project(project.getId(), project.getName(), project.getWebUrl(), LocalDateTime.now().toString(), project.getSourcePlatform(), project.getCommits(), project.getIssues()));
-
         return newProject;
     }
 
+    @Operation(summary="update a Project",description="update a Project data by specifying its id and the new data in the body of the request in JSON format", tags={"Project","put"})
+    @ApiResponses ({
+            @ApiResponse(responseCode = "204", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public Project update(@Valid @RequestBody Project project, @PathVariable String id) {
-        Optional<Project> projectOptional = projectRepository.findById(id);
-
-        Project _project = projectOptional.get();
+    public Project update(@Valid @RequestBody Project project, @Parameter(description = "id of the Project to be modified", required = true)@PathVariable String id) {
+        if(!projectRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Project with id "+id+" does not exist");
+        }
+        Project _project = projectRepository.findById(id).get();
         _project.setId(id);
         _project.setName(project.getName());
         _project.setWebUrl(project.getWebUrl());
         _project.setCommits(project.getCommits());
         _project.setIssues(project.getIssues());
         _project.setSourcePlatform(project.getSourcePlatform());
-
         return projectRepository.save(_project);
     }
 
+
+    @Operation(summary="delete a Project",description="delete a Project whose id is specified", tags={"Project","delete"})
+    @ApiResponses ({
+            @ApiResponse(responseCode = "204", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
+    public void delete(@Parameter(description = "id of the Project to be deleted", required = true)@PathVariable String id) {
         if (projectRepository.existsById(id)) {
             projectRepository.deleteById(id);
+        }
+        else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Project with id "+id+" does not exist");
         }
     }
 

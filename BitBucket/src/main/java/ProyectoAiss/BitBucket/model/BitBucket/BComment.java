@@ -18,7 +18,7 @@ public class BComment {
     @Column(columnDefinition = "TEXT")
     private String body;
 
-    @JsonProperty("Author")
+    @JsonProperty("author")
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.ALL)
     private BUser author;
