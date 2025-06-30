@@ -47,39 +47,6 @@ public class TransformerBitBucket {
 
     public BComment transformComment(BIComments bitBucketIssueComment) {
         BUser user = null;
-
-        if (bitBucketIssueComment.user != null) {
-            user = new BUser();
-            user.setId(bitBucketIssueComment.user.uuid);
-            user.setUsername(bitBucketIssueComment.user.nickname);
-            user.setName(bitBucketIssueComment.user.displayName);
-
-            if (bitBucketIssueComment.user.links != null) {
-                if (bitBucketIssueComment.user.links.avatar != null) {
-                    user.setAvatarUrl(bitBucketIssueComment.user.links.avatar.href);
-                }
-                if (bitBucketIssueComment.user.links.html != null) {
-                    user.setWebUrl(bitBucketIssueComment.user.links.html.href);
-                }
-            }
-        }
-
-        BComment comment = new BComment();
-        comment.setId(bitBucketIssueComment.id.toString());
-        comment.setAuthor(user);
-
-        if (bitBucketIssueComment.content != null && bitBucketIssueComment.content.raw != null) {
-            comment.setBody(bitBucketIssueComment.content.raw);
-        } else {
-            comment.setBody("(no content)");
-        }
-
-        comment.setCreatedAt(bitBucketIssueComment.createdOn);
-
-        if (bitBucketIssueComment.updatedOn != null) {
-            comment.setUpdatedAt(bitBucketIssueComment.updatedOn.toString());
-        }
-
         boolean isCommentFromBot = false;
 
         if (bitBucketIssueComment.user != null) {
@@ -96,6 +63,8 @@ public class TransformerBitBucket {
                     user.setWebUrl(bitBucketIssueComment.user.links.html.href);
                 }
             }
+
+            // Comprobar si es un bot
             if (user.getUsername() != null) {
                 String username = user.getUsername().toLowerCase();
                 if (username.endsWith("bot") || username.contains("automation") || username.contains("ci-cd")) {
@@ -103,10 +72,30 @@ public class TransformerBitBucket {
                 }
             }
         }
+
+        BComment comment = new BComment();
+        comment.setId(bitBucketIssueComment.id.toString());
+        comment.setAuthor(user);
+
+        if (bitBucketIssueComment.content != null && bitBucketIssueComment.content.raw != null) {
+            comment.setBody(bitBucketIssueComment.content.raw);
+        } else {
+            comment.setBody("(no content)");
+        }
+
+        comment.setCreatedAt(bitBucketIssueComment.createdOn);
+
+        // Manejar correctamente el updatedOn
+        if (bitBucketIssueComment.updatedOn != null) {
+            comment.setUpdatedAt(bitBucketIssueComment.updatedOn.toString());
+        } else {
+            // Si no hay updatedOn, usamos createdOn como fallback
+            comment.setUpdatedAt(bitBucketIssueComment.createdOn);
+        }
+
         comment.setIsBot(isCommentFromBot);
         comment.setRetrieved_at(LocalDateTime.now().toString());
         comment.setSourcePlatform(SourcePlatform.BITBUCKET);
-
 
         return comment;
     }
