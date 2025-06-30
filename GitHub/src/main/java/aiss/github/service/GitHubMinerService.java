@@ -36,9 +36,9 @@ public class GitHubMinerService {
         String repoId = owner + "/" + repo;
         project.setId(repoId);
         project.setName(repo);
-        project.setWebUrl("https://github.com/" + owner + "/" + repo);
+        project.setWeb_url("https://github.com/" + owner + "/" + repo);
         project.setRetrieved_at(LocalDateTime.now().toString());
-        project.setSourcePlatform(SourcePlatform.GITHUB);
+        project.setSource_platform(SourcePlatform.GITHUB);
 
         project.setCommits(commits);
         project.setIssues(issues);
@@ -46,4 +46,5 @@ public class GitHubMinerService {
 
         return project;
     }
+
 }

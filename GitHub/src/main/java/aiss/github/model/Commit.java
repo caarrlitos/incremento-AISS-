@@ -1,18 +1,13 @@
 package aiss.github.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-
-
 @Entity
 @Table(name = "commits")
-@JsonPropertyOrder({ "id", "title", "message", "author_name", "author_email", "authored_date", "web_url", "retrieved_at", "is_merge_commit", "source_platform"  })
 public class Commit {
 
-    @Id                          //id no es generado porque nos lo dan el post
+    @Id
     private String id;
 
     @Column(name = "title")
@@ -26,7 +21,7 @@ public class Commit {
     private String author_name;
 
     @Column(name = "author_email")
-    private String authorEmail;
+    private String author_email;
 
     @Column(name = "authored_date")
     private String authored_date;
@@ -38,26 +33,28 @@ public class Commit {
     private String retrieved_at;
 
     @Column(name = "is_merge_commit")
-    private Boolean isMergeCommit;
+    private Boolean is_merge_commit;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "source_platform")
-    private SourcePlatform sourcePlatform;
+    private SourcePlatform source_platform;
 
-    public Commit() {}  //constructor vacio
+    public Commit() {}
 
-    public Commit(String id, String title, String message, String author_name, String author_email, String authored_date, String web_url, String retrieved_at, Boolean isMergeCommit, SourcePlatform sourcePlatform) {
+    public Commit(String id, String title, String message, String author_name, String author_email,
+                  String authored_date, String web_url, String retrieved_at,
+                  Boolean is_merge_commit, SourcePlatform source_platform) {
         this.id = id;
         this.title = title;
         this.message = message;
         this.author_name = author_name;
-        this.authorEmail = author_email;
+        this.author_email = author_email;
         this.authored_date = authored_date;
         this.web_url = web_url;
         this.retrieved_at = retrieved_at;
-        this.isMergeCommit = isMergeCommit;
-        this.sourcePlatform = sourcePlatform;
-    }    //constructor con parametros
+        this.is_merge_commit = is_merge_commit;
+        this.source_platform = source_platform;
+    }
 
     public String getId() {
         return id;
@@ -83,35 +80,35 @@ public class Commit {
         this.message = message;
     }
 
-    public String getAuthorName() {
+    public String getAuthor_name() {
         return author_name;
     }
 
-    public void setAuthorName(String author_name) {
+    public void setAuthor_name(String author_name) {
         this.author_name = author_name;
     }
 
-    public String getAuthorEmail() {
-        return authorEmail;
+    public String getAuthor_email() {
+        return author_email;
     }
 
-    public void setAuthorEmail(String author_email) {
-        this.authorEmail = author_email;
+    public void setAuthor_email(String author_email) {
+        this.author_email = author_email;
     }
 
-    public String getAuthoredDate() {
+    public String getAuthored_date() {
         return authored_date;
     }
 
-    public void setAuthoredDate(String authored_date) {
+    public void setAuthored_date(String authored_date) {
         this.authored_date = authored_date;
     }
 
-    public String getWebUrl() {
+    public String getWeb_url() {
         return web_url;
     }
 
-    public void setWebUrl(String web_url) {
+    public void setWeb_url(String web_url) {
         this.web_url = web_url;
     }
 
@@ -123,20 +120,19 @@ public class Commit {
         this.retrieved_at = retrieved_at;
     }
 
-    public Boolean getIsMergeCommit() {
-        return isMergeCommit;
+    public Boolean getIs_merge_commit() {
+        return is_merge_commit;
     }
 
-    public void setIsMergeCommit(Boolean isMergeCommit) {
-        this.isMergeCommit = isMergeCommit;
+    public void setIs_merge_commit(Boolean is_merge_commit) {
+        this.is_merge_commit = is_merge_commit;
     }
 
-    public SourcePlatform getSourcePlatform() {
-        return sourcePlatform;
+    public SourcePlatform getSource_platform() {
+        return source_platform;
     }
 
-    public void setSourcePlatform(SourcePlatform sourcePlatform) {
-        this.sourcePlatform = sourcePlatform;
+    public void setSource_platform(SourcePlatform source_platform) {
+        this.source_platform = source_platform;
     }
-
 }

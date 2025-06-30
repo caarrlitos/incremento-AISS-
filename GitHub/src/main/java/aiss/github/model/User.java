@@ -1,28 +1,35 @@
-
 package aiss.github.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Table(name = "GMUser")     // Watch out: User is a reserved keyword in H2
+@Table(name = "GMUser") // "User" es reservado en H2
 public class User {
 
     @Id
-    @JsonProperty("id")
     private String id;
-    @JsonProperty("username")
+
     @NotEmpty(message = "The username cannot be empty")
     private String username;
-    @JsonProperty("name")
+
     private String name;
-    @JsonProperty("avatar_url")
-    private String avatarUrl;
-    @JsonProperty("web_url")
-    private String webUrl;
+
+    @Column(name = "avatar_url")
+    private String avatar_url;
+
+    @Column(name = "web_url")
+    private String web_url;
+
+    public User() {}
+
+    public User(String id, String username, String name, String avatar_url, String web_url) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.avatar_url = avatar_url;
+        this.web_url = web_url;
+    }
 
     public String getId() {
         return id;
@@ -48,52 +55,31 @@ public class User {
         this.name = name;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getAvatar_url() {
+        return avatar_url;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
     }
 
-    public String getWebUrl() {
-        return webUrl;
+    public String getWeb_url() {
+        return web_url;
     }
 
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
+    public void setWeb_url(String web_url) {
+        this.web_url = web_url;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(User.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("username");
-        sb.append('=');
-        sb.append(((this.username == null)?"<null>":this.username));
-        sb.append(',');
-        sb.append("name");
-        sb.append('=');
-        sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("avatarUrl");
-        sb.append('=');
-        sb.append(((this.avatarUrl == null)?"<null>":this.avatarUrl));
-        sb.append(',');
-        sb.append("webUrl");
-        sb.append('=');
-        sb.append(((this.webUrl == null)?"<null>":this.webUrl));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
+        sb.append("id=").append(id).append(',');
+        sb.append("username=").append(username).append(',');
+        sb.append("name=").append(name).append(',');
+        sb.append("avatar_url=").append(avatar_url).append(',');
+        sb.append("web_url=").append(web_url).append(']');
         return sb.toString();
     }
-
 }
