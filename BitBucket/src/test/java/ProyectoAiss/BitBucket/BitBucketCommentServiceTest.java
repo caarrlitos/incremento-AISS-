@@ -20,7 +20,6 @@ public class BitBucketCommentServiceTest {
     @Test
     @DisplayName("Fetch comments from a Bitbucket issue")
     public void testFetchCommentsReturnsValidList() {
-        // ⚠️ Sustituye esta URL por una real que funcione con tu proyecto de Bitbucket
         String commentsUrl = "https://api.bitbucket.org/2.0/repositories/gentlero/bitbucket-api/issues/1/comments";
         int maxPages = 1;
 
