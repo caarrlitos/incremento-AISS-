@@ -50,27 +50,6 @@ public class ProjectController {
     }
 
 
-
-    //nuevo metodo añadido con url: http://localhost:8080/gitminer/projects/{sourcePlatform}
-    /*@Operation(summary = "retrieve Project by his source platform", description = "returns a list of Project with the source platform specified", tags={"Project","get"})
-    @ApiResponses({@ApiResponse(responseCode = "200", content={@Content(schema = @Schema(implementation = Project.class))}),
-                    @ApiResponse(responseCode ="404" ,content = {@Content(schema = @Schema())},description = "Projects not found")
-    })
-    @GetMapping("/sourcePlatform/{sourcePlatform}")
-    public List<Project> getProjectBySourcePlatform(@Parameter(description = "source platform specified",required = true) @PathVariable String sourcePlatform) {
-        SourcePlatform platform = SourcePlatform.valueOf(sourcePlatform.toUpperCase());
-        List<Project> listaTotal=projectRepository.findAll();
-        listaTotal.removeIf(project -> !project.getSourcePlatform().equals(platform));
-        if(listaTotal.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return listaTotal;
-    }
-    */
-
-
-
-
     @Operation(summary="insert a Project",description="add a new Project whose data is passed in the body of the request in JSON format", tags={"Project","post"})
     @ApiResponses ({
             @ApiResponse(responseCode = "201", content = {@Content(schema = @Schema(implementation = Project.class))}),

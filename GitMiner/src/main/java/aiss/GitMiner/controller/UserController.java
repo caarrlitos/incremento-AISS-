@@ -29,7 +29,7 @@ public class UserController {
 
 
     @Operation(summary="retrieve User",description="returns all existent User", tags={"User","get"})
-    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = Project.class))}, description = "Successfully retrieved Users")
+    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = User.class))}, description = "Successfully retrieved Users")
     @GetMapping
     public List<User> getAllUsers() {
         return userRepository.findAll();

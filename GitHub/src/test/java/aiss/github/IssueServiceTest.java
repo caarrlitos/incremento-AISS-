@@ -39,6 +39,5 @@ public class IssueServiceTest {
             assertEquals("GITHUB", issue.getSource_platform().toString(), "La plataforma debe ser GITHUB");
             assertNotNull(issue.getState(), "El State no debe ser null");
         }
-        System.out.println(issues);
     }
 }

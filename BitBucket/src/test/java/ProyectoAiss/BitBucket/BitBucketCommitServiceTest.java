@@ -37,7 +37,5 @@ public class BitBucketCommitServiceTest {
             assertNotNull(commit.getAuthorName(), "El commit debe tener autor");
             assertEquals(SourcePlatform.BITBUCKET, commit.getSourcePlatform(), "La plataforma debe ser BITBUCKET");
         }
-
-        System.out.println("Commits obtenidos: " + commits.size());
     }
 }

@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from BIRepository -->
 	</parent>
 	<groupId>ProyectoAiss</groupId>
-	<artifactId>ProyectoMiner</artifactId>
+	<artifactId>BitBucket</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BitBucket</name>
 	<description>Proyecto Aiss (BitBucket)</description>

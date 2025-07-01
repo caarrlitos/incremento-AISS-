@@ -34,6 +34,5 @@ public class CommentServiceTest {
             assertNotNull(comment.getAuthor(), "El Comment debe tener un author");
             assertNotNull(comment.getSource_platform(), "El Comment debe tener un source platform");
         }
-        System.out.println(comments);
     }
 }

@@ -54,7 +54,5 @@ public class BitBucketMinerServiceTest {
             assertNotNull(issue.getTitle(), "El issue debe tener título");
             assertNotNull(issue.getAuthor(), "El issue debe tener autor");
         }
-
-        System.out.println("Proyecto Bitbucket obtenido: " + project);
     }
 }

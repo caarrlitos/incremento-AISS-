@@ -50,6 +50,5 @@ public class BitBucketIssueServiceTest {
             }
         }
 
-        System.out.println("Issues: " + issues);
     }
 }

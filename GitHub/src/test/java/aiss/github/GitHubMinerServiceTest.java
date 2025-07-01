@@ -46,8 +46,6 @@ public class GitHubMinerServiceTest {
         assertNotNull(issues, "La lista de issues no debe ser null");
         assertFalse(issues.isEmpty(), "Debe haber al menos un issue");
         assertTrue(issues.size() <= nIssues, "No debe haber más issues que " + nIssues);
-
-        System.out.println(project);
     }
 }
 

@@ -37,7 +37,6 @@ public class CommitServiceTest {
             assertNotNull(commit.getSource_platform(), "El Source platform no debe ser null");
             assertNotNull(commit.getRetrieved_at(), "El Retrieved at no debe ser null");
         }
-        System.out.println(commits);
     }
 
 }

@@ -34,7 +34,5 @@ public class BitBucketCommentServiceTest {
             assertNotNull(comment.getAuthor(), "El comentario debe tener autor");
             assertNotNull(comment.getSourcePlatform(), "El comentario debe tener plataforma de origen");
         }
-
-        System.out.println(comments);
     }
 }
