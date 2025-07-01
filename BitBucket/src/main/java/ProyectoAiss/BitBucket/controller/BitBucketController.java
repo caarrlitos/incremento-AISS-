@@ -50,14 +50,6 @@ public class BitBucketController {
         BProject project = minerService.fetchProject(workspace, repoSlug, nCommits, nIssues, maxPages);
 
         BProject createdProject = restTemplate.postForObject("http://localhost:8080/gitminer/projects", project, BProject.class);
-/*
-        HttpEntity<BProject> request = new HttpEntity<>(project);
-        ResponseEntity<BProject> response = restTemplate.exchange(
-                "http://localhost:8080/gitminer/projects",
-                HttpMethod.POST,
-                request,
-                BProject.class
-        );*/
 
         return createdProject;
     }
